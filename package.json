@@ -1,0 +1,17 @@
+{
+    "name": "programmaticx-reconciliation",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "tsx src/main.ts",
+        "build": "tsc",
+        "start": "node dist/main.js",
+        "typecheck": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "@types/node": "^26.6.6",
+        "tsx": "^4.23.15",
+        "typescript": "^7.0.2"
+    }
+}
