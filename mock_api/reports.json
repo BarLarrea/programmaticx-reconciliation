@@ -1,0 +1,940 @@
+{
+  "2026-10-17": [
+    {
+      "partner": "Magnite",
+      "bundle": "com.news.daily",
+      "revenue": 328.53,
+      "timestamp": "2026-10-17T21:34:18Z"
+    },
+    {
+      "partner": "magnite inc.",
+      "bundle": "com.games.arcade",
+      "revenue": 190.65,
+      "timestamp": "2026-10-17T21:38:26Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 292.74,
+      "timestamp": "2026-10-17T21:30:30Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 252.15,
+      "timestamp": "2026-10-17T21:50:44Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 222.44,
+      "timestamp": "2026-10-17T21:23:21Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 140.33,
+      "timestamp": "2026-10-17T21:51:35Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 17616,
+      "timestamp": "2026-10-17T21:42:53Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 16325,
+      "timestamp": "2026-10-17T21:35:22Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 10731,
+      "timestamp": "2026-10-17T21:49:41Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 262.02,
+      "timestamp": "2026-10-17T21:52:28Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 181.61,
+      "timestamp": "2026-10-17T21:47:03Z"
+    }
+  ],
+  "2026-10-18": [
+    {
+      "partner": "magnite inc.",
+      "bundle": "com.news.daily",
+      "revenue": 447.27,
+      "timestamp": "2026-10-18T21:44:36Z"
+    },
+    {
+      "partner": "MGNI",
+      "bundle": "com.games.arcade",
+      "revenue": 278.46,
+      "timestamp": "2026-10-18T21:41:16Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 456.48,
+      "timestamp": "2026-10-18T21:37:35Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 387.6,
+      "timestamp": "2026-10-18T21:24:32Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 321.11,
+      "timestamp": "2026-10-18T21:31:49Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 211.73,
+      "timestamp": "2026-10-18T21:35:32Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 28636,
+      "timestamp": "2026-10-18T21:54:21Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 24025,
+      "timestamp": "2026-10-18T21:31:38Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 16007,
+      "timestamp": "2026-10-18T21:32:21Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 374.69,
+      "timestamp": "2026-10-18T21:37:51Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 248.63,
+      "timestamp": "2026-10-18T21:28:29Z"
+    }
+  ],
+  "2026-10-19": [
+    {
+      "partner": "MGNI",
+      "bundle": "com.news.daily",
+      "revenue": 464.64,
+      "timestamp": "2026-10-19T21:47:29Z"
+    },
+    {
+      "partner": "Magnite",
+      "bundle": "com.games.arcade",
+      "revenue": 276.73,
+      "timestamp": "2026-10-19T21:29:16Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 415.86,
+      "timestamp": "2026-10-19T21:31:56Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 392.2,
+      "timestamp": "2026-10-19T21:27:30Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 310.25,
+      "timestamp": "2026-10-19T21:45:52Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 223.16,
+      "timestamp": "2026-10-19T21:36:17Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 28064,
+      "timestamp": "2026-10-19T21:51:23Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 26599,
+      "timestamp": "2026-10-19T21:25:24Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 14927,
+      "timestamp": "2026-10-19T21:31:36Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 381.98,
+      "timestamp": "2026-10-19T21:20:49Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 264.95,
+      "timestamp": "2026-10-19T21:29:25Z"
+    }
+  ],
+  "2026-10-20": [
+    {
+      "partner": "Magnite",
+      "bundle": "com.news.daily",
+      "revenue": 449.52,
+      "timestamp": "2026-10-20T21:27:08Z"
+    },
+    {
+      "partner": "magnite inc.",
+      "bundle": "com.games.arcade",
+      "revenue": 274.67,
+      "timestamp": "2026-10-20T21:17:49Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 421.32,
+      "timestamp": "2026-10-20T21:48:57Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 390.32,
+      "timestamp": "2026-10-20T21:19:13Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 292.66,
+      "timestamp": "2026-10-20T21:32:57Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 236.87,
+      "timestamp": "2026-10-20T21:29:39Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 31516,
+      "timestamp": "2026-10-20T21:21:23Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 24209,
+      "timestamp": "2026-10-20T21:31:37Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 15353,
+      "timestamp": "2026-10-20T21:54:57Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 365.46,
+      "timestamp": "2026-10-20T21:41:54Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 263.95,
+      "timestamp": "2026-10-20T21:53:17Z"
+    }
+  ],
+  "2026-10-21": [
+    {
+      "partner": "magnite inc.",
+      "bundle": "com.news.daily",
+      "revenue": 454.52,
+      "timestamp": "2026-10-21T21:49:41Z"
+    },
+    {
+      "partner": "MGNI",
+      "bundle": "com.games.arcade",
+      "revenue": 275.07,
+      "timestamp": "2026-10-21T21:49:08Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 429.12,
+      "timestamp": "2026-10-21T21:51:43Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 400.69,
+      "timestamp": "2026-10-21T21:22:57Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 318.9,
+      "timestamp": "2026-10-21T21:45:34Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 213.96,
+      "timestamp": "2026-10-21T21:23:12Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 28457,
+      "timestamp": "2026-10-21T21:52:51Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 24899,
+      "timestamp": "2026-10-21T21:45:55Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 15626,
+      "timestamp": "2026-10-21T21:49:38Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 380.22,
+      "timestamp": "2026-10-21T21:32:39Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 253.37,
+      "timestamp": "2026-10-21T21:46:54Z"
+    }
+  ],
+  "2026-10-22": [
+    {
+      "partner": "MGNI",
+      "bundle": "com.news.daily",
+      "revenue": 434.13,
+      "timestamp": "2026-10-22T21:24:51Z"
+    },
+    {
+      "partner": "Magnite",
+      "bundle": "com.games.arcade",
+      "revenue": 247.21,
+      "timestamp": "2026-10-22T21:48:30Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 395.54,
+      "timestamp": "2026-10-22T21:54:35Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 357.79,
+      "timestamp": "2026-10-22T21:41:50Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 307.23,
+      "timestamp": "2026-10-22T21:48:45Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 213.55,
+      "timestamp": "2026-10-22T21:35:52Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 26363,
+      "timestamp": "2026-10-22T21:34:28Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 24325,
+      "timestamp": "2026-10-22T21:49:36Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 14924,
+      "timestamp": "2026-10-22T21:51:38Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 362.07,
+      "timestamp": "2026-10-22T21:19:13Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 248.69,
+      "timestamp": "2026-10-22T21:24:33Z"
+    }
+  ],
+  "2026-10-23": [
+    {
+      "partner": "Magnite",
+      "bundle": "com.news.daily",
+      "revenue": 298.57,
+      "timestamp": "2026-10-23T21:24:28Z"
+    },
+    {
+      "partner": "magnite inc.",
+      "bundle": "com.games.arcade",
+      "revenue": 187.69,
+      "timestamp": "2026-10-23T21:37:46Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 313.93,
+      "timestamp": "2026-10-23T21:16:41Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 277.74,
+      "timestamp": "2026-10-23T21:48:19Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 218.0,
+      "timestamp": "2026-10-23T21:40:28Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 151.06,
+      "timestamp": "2026-10-23T21:45:39Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 19580,
+      "timestamp": "2026-10-23T21:18:40Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 16247,
+      "timestamp": "2026-10-23T21:44:39Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 11062,
+      "timestamp": "2026-10-23T21:20:18Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 250.58,
+      "timestamp": "2026-10-23T21:45:47Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 185.3,
+      "timestamp": "2026-10-23T21:45:31Z"
+    }
+  ],
+  "2026-10-25": [
+    {
+      "partner": "magnite inc.",
+      "bundle": "com.news.daily",
+      "revenue": 288.63,
+      "timestamp": "2026-10-25T01:39:18Z"
+    },
+    {
+      "partner": "MGNI",
+      "bundle": "com.games.arcade",
+      "revenue": 178.77,
+      "timestamp": "2026-10-25T01:16:10Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 306.13,
+      "timestamp": "2026-10-25T01:37:23Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 241.06,
+      "timestamp": "2026-10-25T01:41:33Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 207.5,
+      "timestamp": "2026-10-25T01:29:42Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 148.1,
+      "timestamp": "2026-10-25T01:33:12Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 18228,
+      "timestamp": "2026-10-25T01:50:15Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 16176,
+      "timestamp": "2026-10-25T01:20:33Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 10819,
+      "timestamp": "2026-10-25T01:50:01Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 235.27,
+      "timestamp": "2026-10-25T01:41:39Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 170.25,
+      "timestamp": "2026-10-25T01:21:18Z"
+    },
+    {
+      "partner": "MGNI",
+      "bundle": "com.news.daily",
+      "revenue": 445.81,
+      "timestamp": "2026-10-25T22:49:56Z"
+    },
+    {
+      "partner": "Magnite",
+      "bundle": "com.games.arcade",
+      "revenue": 275.89,
+      "timestamp": "2026-10-25T22:25:27Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 414.02,
+      "timestamp": "2026-10-25T22:40:12Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 372.12,
+      "timestamp": "2026-10-25T22:23:26Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 291.55,
+      "timestamp": "2026-10-25T22:16:42Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 218.89,
+      "timestamp": "2026-10-25T22:49:33Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 28971,
+      "timestamp": "2026-10-25T22:28:37Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 26155,
+      "timestamp": "2026-10-25T22:31:26Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 15881,
+      "timestamp": "2026-10-25T22:29:35Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 388.48,
+      "timestamp": "2026-10-25T22:26:54Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 264.83,
+      "timestamp": "2026-10-25T22:31:52Z"
+    }
+  ],
+  "2026-10-26": [
+    {
+      "partner": "Magnite",
+      "bundle": "com.news.daily",
+      "revenue": 453.51,
+      "timestamp": "2026-10-26T22:33:38Z"
+    },
+    {
+      "partner": "magnite inc.",
+      "bundle": "com.games.arcade",
+      "revenue": 263.67,
+      "timestamp": "2026-10-26T22:40:50Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 446.66,
+      "timestamp": "2026-10-26T22:18:01Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 403.63,
+      "timestamp": "2026-10-26T22:44:03Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 322.92,
+      "timestamp": "2026-10-26T22:29:24Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 230.2,
+      "timestamp": "2026-10-26T22:35:04Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 29121,
+      "timestamp": "2026-10-26T22:26:38Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 24774,
+      "timestamp": "2026-10-26T22:49:29Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 15867,
+      "timestamp": "2026-10-26T22:52:12Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 363.04,
+      "timestamp": "2026-10-26T22:31:46Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 246.1,
+      "timestamp": "2026-10-26T22:44:00Z"
+    }
+  ],
+  "2026-10-27": [
+    {
+      "partner": "magnite inc.",
+      "bundle": "com.news.daily",
+      "revenue": 429.99,
+      "timestamp": "2026-10-27T22:45:28Z"
+    },
+    {
+      "partner": "MGNI",
+      "bundle": "com.games.arcade",
+      "revenue": 272.89,
+      "timestamp": "2026-10-27T22:27:48Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 448.37,
+      "timestamp": "2026-10-27T22:39:07Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 397.66,
+      "timestamp": "2026-10-27T22:27:35Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 301.63,
+      "timestamp": "2026-10-27T22:36:16Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 221.54,
+      "timestamp": "2026-10-27T22:18:23Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 28860,
+      "timestamp": "2026-10-27T22:52:15Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 23544,
+      "timestamp": "2026-10-27T22:20:56Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 15371,
+      "timestamp": "2026-10-27T22:50:00Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 376.51,
+      "timestamp": "2026-10-27T22:18:30Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 256.66,
+      "timestamp": "2026-10-27T22:23:24Z"
+    }
+  ],
+  "2026-10-28": [
+    {
+      "partner": "MGNI",
+      "bundle": "com.news.daily",
+      "revenue": 480.77,
+      "timestamp": "2026-10-28T22:23:25Z"
+    },
+    {
+      "partner": "Magnite",
+      "bundle": "com.games.arcade",
+      "revenue": 276.31,
+      "timestamp": "2026-10-28T22:16:11Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 411.81,
+      "timestamp": "2026-10-28T22:43:17Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 362.45,
+      "timestamp": "2026-10-28T22:50:49Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 315.5,
+      "timestamp": "2026-10-28T22:31:46Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 205.95,
+      "timestamp": "2026-10-28T22:50:01Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 27523,
+      "timestamp": "2026-10-28T22:37:14Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 27175,
+      "timestamp": "2026-10-28T22:38:27Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 15651,
+      "timestamp": "2026-10-28T22:33:04Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 379.19,
+      "timestamp": "2026-10-28T22:25:24Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 268.33,
+      "timestamp": "2026-10-28T22:23:03Z"
+    }
+  ],
+  "2026-10-29": [
+    {
+      "partner": "Magnite",
+      "bundle": "com.news.daily",
+      "revenue": 405.05,
+      "timestamp": "2026-10-29T22:40:53Z"
+    },
+    {
+      "partner": "magnite inc.",
+      "bundle": "com.games.arcade",
+      "revenue": 245.47,
+      "timestamp": "2026-10-29T22:17:23Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.news.daily",
+      "revenue": 397.55,
+      "timestamp": "2026-10-29T22:44:30Z"
+    },
+    {
+      "partner": "OpenX",
+      "bundle": "com.sports.live",
+      "revenue": 387.61,
+      "timestamp": "2026-10-29T22:52:33Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 273.97,
+      "timestamp": "2026-10-29T22:48:16Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 224.81,
+      "timestamp": "2026-10-29T22:16:28Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 28290,
+      "timestamp": "2026-10-29T22:28:50Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 24577,
+      "timestamp": "2026-10-29T22:35:53Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 15154,
+      "timestamp": "2026-10-29T22:26:45Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 366.3,
+      "timestamp": "2026-10-29T22:53:25Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 245.59,
+      "timestamp": "2026-10-29T22:37:07Z"
+    }
+  ],
+  "2026-10-30": [
+    {
+      "partner": "magnite inc.",
+      "bundle": "com.news.daily",
+      "revenue": 324.0,
+      "timestamp": "2026-10-30T22:30:54Z"
+    },
+    {
+      "partner": "MGNI",
+      "bundle": "com.games.arcade",
+      "revenue": 203.01,
+      "timestamp": "2026-10-30T22:46:02Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.games.arcade",
+      "revenue": 216.96,
+      "timestamp": "2026-10-30T22:25:07Z"
+    },
+    {
+      "partner": "Index Exchange",
+      "bundle": "com.weather.app",
+      "revenue": 152.81,
+      "timestamp": "2026-10-30T22:36:23Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.news.daily",
+      "revenue": 19240,
+      "timestamp": "2026-10-30T22:19:53Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.fashion.shop",
+      "revenue": 18037,
+      "timestamp": "2026-10-30T22:20:02Z"
+    },
+    {
+      "partner": "PubMatic",
+      "bundle": "com.weather.app",
+      "revenue": 10545,
+      "timestamp": "2026-10-30T22:32:50Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.sports.live",
+      "revenue": 200.59,
+      "timestamp": "2026-10-30T22:46:42Z"
+    },
+    {
+      "partner": "Sovrn",
+      "bundle": "com.fashion.shop",
+      "revenue": 146.49,
+      "timestamp": "2026-10-30T22:21:39Z"
+    }
+  ]
+}
