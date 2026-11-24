@@ -16,5 +16,8 @@
     },
     "engines": {
         "node": ">=24"
+    },
+    "dependencies": {
+        "csv-parse": "^7.0.3"
     }
 }
