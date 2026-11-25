@@ -1,3 +1,5 @@
+import { appConfig } from "./config/appConfig.js";
+import { createDatabase, loadRevenue } from "./db/database.js";
 import { fetchPartnerReports } from "./ingest/partnerApi.js";
 import { loadServerRevenue } from "./ingest/serverCsv.js";
 import { cleanPartnerRows } from "./transform/partnerRows.js";
@@ -19,7 +21,10 @@ const rawPartnerRows = await fetchPartnerReports(
 );
 const partnerRows = cleanPartnerRows(rawPartnerRows);
 
+const db = createDatabase(appConfig.dbPath);
+loadRevenue(db, serverRows, partnerRows);
+
 console.log(
     `Loaded ${serverRows.length} server rows (${firstDay} to ${lastDay}) ` +
-        `and ${partnerRows.length} partner rows.`
+        `and ${partnerRows.length} partner rows into ${appConfig.dbPath}`
 );

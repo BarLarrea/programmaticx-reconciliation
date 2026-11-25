@@ -119,6 +119,15 @@ A GitHub repository link, with a README that covers everything asked for in the 
   - *Check after cleaning:* all partner rows use the five CSV names. A quick comparison of daily totals per partner (before the SQL step) gave 70 (date, partner) pairs. All of them are within 10%, except two on 2026-10-31: OpenX has no partner data, and Sovrn is at -16.78%.
 - **Our CSV is not cleaned:** it already has five consistent partner names and local dates, so no rules are added for it.
 
+### Load
+
+- **SQLite through Node's built-in `node:sqlite`**, in `reconcile.db` at the project root. The file is in `.gitignore`.
+- **The database is rebuilt on every run.** Each run loads all the data again from the CSV and the API, so adding to the old tables would load every row twice and double the totals. The database is not a source of truth: it can always be rebuilt from the CSV and the raw files. The Python starter does the same.
+  - *Next step:* keep a history of runs (for example a `run_id` column) to see how a partner's figures change between runs.
+- **Two tables with the same shape**, `server_revenue` and `partner_revenue` (`date`, `partner`, `bundle`, `revenue`). Rows are stored per bundle, as in the sources. Totals per partner are left to SQL.
+- **All SQL is in `src/db/queries.ts`.** Values are passed as named parameters, never pasted into the SQL text.
+- **Both sources are loaded in one transaction**, so the database never holds only part of the data.
+
 ### Data findings (handled in later steps)
 
 - Magnite shows up under three names in the API: `Magnite`, `magnite inc.`, `MGNI`.
