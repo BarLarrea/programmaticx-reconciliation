@@ -107,6 +107,14 @@ A GitHub repository link, with a README that covers everything asked for in the 
 - **Partner dates:** each partner row's day is the Israel (`Asia/Jerusalem`) calendar day of its UTC `timestamp`, using `Intl.DateTimeFormat`. It is not a fixed +2 or +3 hours, because Israel moved from UTC+3 to UTC+2 on 2026-10-25, in the middle of our data.
   - Checked on the boundaries: `2026-10-24T20:59:59Z` is still 2026-10-24, `21:00:00Z` is 2026-10-25 (UTC+3). After the clock change, `2026-10-25T21:59:59Z` is still 2026-10-25, and `22:00:00Z` is 2026-10-26 (UTC+2).
   - Checked on the data: after conversion, every Israel day from 2026-10-18 to 2026-10-30 has exactly 11 partner rows, the same count as our CSV. 2026-10-31 has 9, because OpenX sent nothing.
+- **PubMatic revenue is divided by 100 (assumption: the API reports it in cents).** The rule is listed in `businessConfig.partnersReportingInCents`, not hidden in the code, and the raw files keep the original values.
+  - *Evidence from the data:* for all 42 PubMatic rows (14 days × 3 bundles), the API value divided by our CSV value is between 98.1 and 102.0, so it is 100 times our figure, within the same ±2% the other partners show. All 42 PubMatic values are whole numbers, while 108 of the other partners' 110 values have cents. A real jump in revenue would not come out at exactly ×100 on every bundle, every day, for two weeks.
+  - *Why not leave it and flag it:* PubMatic would be flagged every day with a gap of about +9,800%. An alert that fires every day gets ignored, and it would hide a real PubMatic gap, such as a day 20% short.
+  - *How I would confirm it in a real company:*
+    1. Read PubMatic's API documentation for the unit of the revenue field.
+    2. Ask our PubMatic account manager or the ad-ops team that owns the integration.
+    3. Compare one day's API value with PubMatic's own dashboard or invoice for that day. The invoice is what we are actually paid.
+  - *Next step:* ask the partner API to send a currency or unit field with each row, so the unit is stated rather than inferred.
 - **Our CSV is not cleaned:** it already has five consistent partner names and local dates, so no rules are added for it.
 
 ### Data findings (handled in later steps)

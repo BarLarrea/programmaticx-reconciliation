@@ -19,5 +19,11 @@ export const businessConfig = {
     /** Days are counted in Israel time, the same as our CSV dates. */
     timeZone: "Asia/Jerusalem",
 
-    partnerAliases
+    partnerAliases,
+
+    /**
+     * Partners whose API reports revenue in cents instead of dollars.
+     * Names as in our CSV. See the README for the evidence.
+     */
+    partnersReportingInCents: ["PubMatic"]
 };
