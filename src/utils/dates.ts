@@ -24,6 +24,21 @@ export function addDays(day: string, days: number): string {
     return date.toISOString().slice(0, 10);
 }
 
+/**
+ * The YYYY-MM-DD calendar day on which a moment in time falls in the
+ * given time zone. Handles daylight saving time, because Intl knows the
+ * zone's rules. Example: "2026-10-17T21:34:18Z" in Asia/Jerusalem is
+ * 00:34 on 2026-10-18, so this returns "2026-10-18".
+ */
+export function toLocalDate(timestamp: string, timeZone: string): string {
+    const moment = new Date(timestamp);
+
+    // The en-CA locale formats dates as YYYY-MM-DD.
+    const formatter = new Intl.DateTimeFormat("en-CA", { timeZone });
+
+    return formatter.format(moment);
+}
+
 /** Every YYYY-MM-DD date from start to end, both included. */
 export function eachDay(start: string, end: string): string[] {
     const days: string[] = [];

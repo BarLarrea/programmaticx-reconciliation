@@ -104,6 +104,9 @@ A GitHub repository link, with a README that covers everything asked for in the 
   - In the data, every Israel day has exactly one row for each of Magnite's two bundles in our CSV (`com.news.daily`, `com.games.arcade`), never two rows for the same bundle. The names rotate from day to day, and each amount is within about 2% of our CSV.
   - In a real company this would be confirmed with the partnerships or ad-ops team.
   - *Next step:* ask the partner API for a stable `partner_id` and match on that instead of free-text names. There is no such ID in the data today.
+- **Partner dates:** each partner row's day is the Israel (`Asia/Jerusalem`) calendar day of its UTC `timestamp`, using `Intl.DateTimeFormat`. It is not a fixed +2 or +3 hours, because Israel moved from UTC+3 to UTC+2 on 2026-10-25, in the middle of our data.
+  - Checked on the boundaries: `2026-10-24T20:59:59Z` is still 2026-10-24, `21:00:00Z` is 2026-10-25 (UTC+3). After the clock change, `2026-10-25T21:59:59Z` is still 2026-10-25, and `22:00:00Z` is 2026-10-26 (UTC+2).
+  - Checked on the data: after conversion, every Israel day from 2026-10-18 to 2026-10-30 has exactly 11 partner rows, the same count as our CSV. 2026-10-31 has 9, because OpenX sent nothing.
 - **Our CSV is not cleaned:** it already has five consistent partner names and local dates, so no rules are added for it.
 
 ### Data findings (handled in later steps)
