@@ -77,3 +77,31 @@ The data runs from 18 October 2026 through 31 October 2026. Treat the most recen
 ## What to send us
 
 A GitHub repository link, with a README that covers everything asked for in the brief: how to run your project, how you made sure the numbers are correct, the decisions you made, a short description of the one feature you would build (what, why, and roughly how), where you used AI and how you checked its output, and, if you ran out of time, what you would do next.
+
+---
+
+## Decisions log (working notes, to be rewritten into the final README)
+
+### Ingest
+
+- **Rewritten in TypeScript** (Node 24). `mock_api/` and the data files are unchanged.
+- **Raw responses are saved byte-for-byte** as `raw/report_<day>.json` before any parsing. Checked with `cmp` against a live `curl` of the API.
+- **Fetch range:** from the day before the first CSV date to the last CSV date. Partner timestamps are UTC, and records from late evening UTC fall on the next day in Israel, so the day before is needed. We fetch every day in that range, not only the dates that appear in the CSV. If our server had no rows for a day, that day still gets fetched, and the partner's revenue shows up as a gap instead of quietly disappearing. The Python starter does the same.
+- **The day a row belongs to comes from its `timestamp`, not from the `date` we asked the API for.** In the data, `2026-10-24` returns no rows, and `2026-10-25` returns rows for two Israel days.
+- **Parse = shape check only.** Each source is parsed and validated in `src/ingest/`: JSON or CSV into typed rows, and every field is checked for the right type. No values are changed there. Cleaning happens in `src/transform/`.
+- **Bad input stops the run (fail fast).** Invalid JSON, a missing `rows` array, or any malformed row throws a clear error, and nothing is loaded or reported. A report built on partial data could show a wrong gap without anyone noticing. There are no malformed rows in the current data (all 152 partner rows and 154 server rows pass).
+  - *Next step:* move bad rows into a quarantine list with a reason, keep the run going, and mark that partner and day as "incomplete" in the report instead of computing a gap.
+
+### Data findings (handled in later steps)
+
+- Magnite shows up under three names in the API: `Magnite`, `magnite inc.`, `MGNI`.
+- PubMatic reports revenue in cents (`17616` against `178.70` in our CSV). All PubMatic values are whole numbers.
+- OpenX sent no data for 2026-10-31 (the most recent day).
+- Israel switched from summer to winter time on 2026-10-25 (UTC+3 to UTC+2), so dates must be converted with the time zone, not a fixed offset.
+
+### Tooling
+
+- **Built-in `node:sqlite` (planned)**: no native dependency to compile, and its API is synchronous like `better-sqlite3`.
+- **`vitest` (planned)**: works with TypeScript and ESM without extra setup.
+- **`csv-parse`**: handles quoted fields correctly, which splitting on commas does not.
+- **Entry point `src/main.ts`**, run with `npm run reconcile`.
