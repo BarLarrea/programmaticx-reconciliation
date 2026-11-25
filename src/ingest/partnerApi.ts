@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { config } from "../config.js";
+import { appConfig } from "../config/appConfig.js";
 import type { PartnerApiRow } from "../types/revenue.js";
 
 /**
@@ -26,16 +26,16 @@ export async function fetchPartnerReports(days: string[]): Promise<PartnerApiRow
  * exactly as received (raw bytes, not parsed).
  */
 export async function fetchPartnerReportRaw(day: string): Promise<Buffer> {
-    const url = `${config.partnerApiBaseUrl}/report?date=${day}`;
+    const url = `${appConfig.partnerApiBaseUrl}/report?date=${day}`;
 
     let res: Response;
     try {
         res = await fetch(url, {
-            signal: AbortSignal.timeout(config.partnerApiTimeoutMs),
+            signal: AbortSignal.timeout(appConfig.partnerApiTimeoutMs),
         });
     } catch (err) {
         throw new Error(
-            `Could not reach the partner API at ${config.partnerApiBaseUrl}. ` +
+            `Could not reach the partner API at ${appConfig.partnerApiBaseUrl}. ` +
                 "Start it first with: python3 mock_api/server.py",
             { cause: err }
         );
@@ -50,8 +50,8 @@ export async function fetchPartnerReportRaw(day: string): Promise<Buffer> {
 
 /** Saves a raw partner response unchanged, as raw/report_<day>.json. */
 export async function saveRawReport(day: string, raw: Buffer): Promise<void> {
-    await mkdir(config.rawDir, { recursive: true });
-    await writeFile(path.join(config.rawDir, `report_${day}.json`), raw);
+    await mkdir(appConfig.rawDir, { recursive: true });
+    await writeFile(path.join(appConfig.rawDir, `report_${day}.json`), raw);
 }
 
 /**
