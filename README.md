@@ -125,7 +125,7 @@ A GitHub repository link, with a README that covers everything asked for in the 
 - **The database is rebuilt on every run.** Each run loads all the data again from the CSV and the API, so adding to the old tables would load every row twice and double the totals. The database is not a source of truth: it can always be rebuilt from the CSV and the raw files. The Python starter does the same.
   - *Next step:* keep a history of runs (for example a `run_id` column) to see how a partner's figures change between runs.
 - **Two tables with the same shape**, `server_revenue` and `partner_revenue` (`date`, `partner`, `bundle`, `revenue`). Rows are stored per bundle, as in the sources. Totals per partner are left to SQL.
-- **All SQL is in `src/db/queries.ts`.** Values are passed as named parameters, never pasted into the SQL text.
+- **SQL lives in `src/db/`:** the table structure in `schema.ts`, and the statements that work on the data (inserts, and later the gap and flag queries) in `queries.ts`. Values are passed as named parameters, never pasted into the SQL text.
 - **Both sources are loaded in one transaction**, so the database never holds only part of the data.
 
 ### Data findings (handled in later steps)

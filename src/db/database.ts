@@ -1,11 +1,8 @@
 import { rmSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
 import type { RevenueRow } from "../types/revenue.js";
-import {
-    CREATE_TABLES,
-    INSERT_PARTNER_ROW,
-    INSERT_SERVER_ROW
-} from "./queries.js";
+import { INSERT_PARTNER_ROW, INSERT_SERVER_ROW } from "./queries.js";
+import { CREATE_TABLES } from "./schema.js";
 
 /**
  * Creates an empty database with both tables.
