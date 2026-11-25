@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { parse } from "csv-parse/sync";
-import { config } from "../config.js";
+import { appConfig } from "../config/appConfig.js";
 import type { RevenueRow } from "../types/revenue.js";
 import { isValidDate } from "../utils/dates.js";
 
@@ -8,7 +8,7 @@ const REQUIRED_COLUMNS = ["date", "partner", "bundle", "revenue"];
 
 /** Reads our revenue CSV from disk and returns its validated rows. */
 export async function loadServerRevenue(): Promise<RevenueRow[]> {
-    return parseServerCsv(await readFile(config.serverCsvPath, "utf-8"));
+    return parseServerCsv(await readFile(appConfig.serverCsvPath, "utf-8"));
 }
 
 /**

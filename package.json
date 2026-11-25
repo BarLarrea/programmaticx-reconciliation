@@ -5,9 +5,10 @@
     "type": "module",
     "scripts": {
         "reconcile": "tsx src/main.ts",
+        "test": "tsx --test tests/*.test.ts",
         "build": "tsc",
         "start": "node dist/main.js",
-        "typecheck": "tsc --noEmit"
+        "typecheck": "tsc --noEmit && tsc -p tests"
     },
     "devDependencies": {
         "@types/node": "^24.19.2",
