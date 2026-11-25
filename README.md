@@ -92,6 +92,20 @@ A GitHub repository link, with a README that covers everything asked for in the 
 - **Bad input stops the run (fail fast).** Invalid JSON, a missing `rows` array, or any malformed row throws a clear error, and nothing is loaded or reported. A report built on partial data could show a wrong gap without anyone noticing. There are no malformed rows in the current data (all 152 partner rows and 154 server rows pass).
   - *Next step:* move bad rows into a quarantine list with a reason, keep the run going, and mark that partner and day as "incomplete" in the report instead of computing a gap.
 
+### Project structure
+
+- The folders follow the ETL stages, but each one is named for what it does: `src/ingest/` (extract: fetch, save raw, validate shape), `src/transform/` (clean and convert values), and `src/db/` (load into SQLite, plus the reconciliation queries). It is called `db/` and not `load/` because it also holds the gap and flag queries.
+
+### Transform
+
+- **Partner names:** the names in our CSV are the canonical ones, because the CSV is our own record and its names are consistent. An explicit alias map in `src/config/businessConfig.ts` maps `magnite inc.` and `MGNI` to `Magnite`. The alias is the key, so one alias can never belong to two partners (the same shape as an `alias PRIMARY KEY` table). Matching is exact, with no case folding or trimming, because the data has no such variants. An unknown name passes through unchanged and does not stop the run, so it shows up in the report as its own partner with no server revenue instead of disappearing.
+- **Why the three Magnite names are one partner:**
+  - Magnite, Inc. is a real SSP listed on NASDAQ as `MGNI`, so one name is the legal name and one is the stock ticker.
+  - In the data, every Israel day has exactly one row for each of Magnite's two bundles in our CSV (`com.news.daily`, `com.games.arcade`), never two rows for the same bundle. The names rotate from day to day, and each amount is within about 2% of our CSV.
+  - In a real company this would be confirmed with the partnerships or ad-ops team.
+  - *Next step:* ask the partner API for a stable `partner_id` and match on that instead of free-text names. There is no such ID in the data today.
+- **Our CSV is not cleaned:** it already has five consistent partner names and local dates, so no rules are added for it.
+
 ### Data findings (handled in later steps)
 
 - Magnite shows up under three names in the API: `Magnite`, `magnite inc.`, `MGNI`.
@@ -102,6 +116,12 @@ A GitHub repository link, with a README that covers everything asked for in the 
 ### Tooling
 
 - **Built-in `node:sqlite` (planned)**: no native dependency to compile, and its API is synchronous like `better-sqlite3`.
-- **`vitest` (planned)**: works with TypeScript and ESM without extra setup.
+- **Test runner:** not chosen yet (decided when the tests are written).
 - **`csv-parse`**: handles quoted fields correctly, which splitting on commas does not.
 - **Entry point `src/main.ts`**, run with `npm run reconcile`.
+
+### AI use and how its output was checked (working notes)
+
+- I wrote this project with Claude Code. I reviewed each change before it was committed, and I did not take any code without understanding it.
+- **I checked the code by running it, not only by reading it.** For each step I ran the new code from `main.ts` against the mock API and looked at the output. For example, I printed the partner rows with `console.table` before and after `normalizePartnerName`, and checked that only the three Magnite names changed (28 rows, all `Magnite` afterwards). These checks stay out of the commits.
+- **I pushed back on AI suggestions that were too complex.** The first version of the alias map was rebuilt into a reverse lookup when the file loaded. I asked for something simpler, and it became one dictionary lookup.
