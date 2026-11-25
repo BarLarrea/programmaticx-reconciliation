@@ -129,7 +129,9 @@ A GitHub repository link, with a README that covers everything asked for in the 
 ### Tooling
 
 - **Built-in `node:sqlite` (planned)**: no native dependency to compile, and its API is synchronous like `better-sqlite3`.
-- **Test runner:** not chosen yet (decided when the tests are written).
+- **Tests: Node's built-in `node:test`, run through `tsx` (`npm test`).** The brief asks for one small test, so a test framework dependency was not worth it. Plain `node --test` cannot run our files, because the TypeScript imports use `.js` paths that only `tsx` maps to `.ts`.
+  - `tests/partnerRows.test.ts` checks the cleaning: the Magnite aliases, the Israel day on both sides of the 2026-10-25 clock change, PubMatic cents, and that the raw rows are not changed.
+  - To make sure the tests can fail, the config was broken on purpose (time zone set to UTC, cents list emptied). Three of the four tests failed, and all passed again once the config was restored.
 - **`csv-parse`**: handles quoted fields correctly, which splitting on commas does not.
 - **Entry point `src/main.ts`**, run with `npm run reconcile`.
 

@@ -1,0 +1,10 @@
+{
+    // Type-checks the tests (and the src files they import) with the same
+    // settings as the project. Never emits: tests are run by tsx.
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "rootDir": "..",
+        "noEmit": true
+    },
+    "include": ["./**/*.ts", "../src/**/*.ts"]
+}
