@@ -115,6 +115,8 @@ A GitHub repository link, with a README that covers everything asked for in the 
     2. Ask our PubMatic account manager or the ad-ops team that owns the integration.
     3. Compare one day's API value with PubMatic's own dashboard or invoice for that day. The invoice is what we are actually paid.
   - *Next step:* ask the partner API to send a currency or unit field with each row, so the unit is stated rather than inferred.
+- **One function applies the rules:** `cleanPartnerRows` returns new rows in the same shape as our CSV (`date`, `partner`, `bundle`, `revenue`), so both sources load into tables of the same shape. It maps the name first, because the cents rule looks partners up by their CSV name. The raw rows are not changed.
+  - *Check after cleaning:* all partner rows use the five CSV names. A quick comparison of daily totals per partner (before the SQL step) gave 70 (date, partner) pairs. All of them are within 10%, except two on 2026-10-31: OpenX has no partner data, and Sovrn is at -16.78%.
 - **Our CSV is not cleaned:** it already has five consistent partner names and local dates, so no rules are added for it.
 
 ### Data findings (handled in later steps)

@@ -1,5 +1,6 @@
 import { fetchPartnerReports } from "./ingest/partnerApi.js";
 import { loadServerRevenue } from "./ingest/serverCsv.js";
+import { cleanPartnerRows } from "./transform/partnerRows.js";
 import { addDays, eachDay } from "./utils/dates.js";
 
 const serverRows = await loadServerRevenue();
@@ -13,7 +14,10 @@ if (!firstDay || !lastDay) {
     throw new Error("Server CSV has no rows");
 }
 
-const partnerRows = await fetchPartnerReports(eachDay(addDays(firstDay, -1), lastDay));
+const rawPartnerRows = await fetchPartnerReports(
+    eachDay(addDays(firstDay, -1), lastDay)
+);
+const partnerRows = cleanPartnerRows(rawPartnerRows);
 
 console.log(
     `Loaded ${serverRows.length} server rows (${firstDay} to ${lastDay}) ` +
