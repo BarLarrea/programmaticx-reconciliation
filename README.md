@@ -119,6 +119,26 @@ A GitHub repository link, with a README that covers everything asked for in the 
   - *Check after cleaning:* all partner rows use the five CSV names. A quick comparison of daily totals per partner (before the SQL step) gave 70 (date, partner) pairs. All of them are within 10%, except two on 2026-10-31: OpenX has no partner data, and Sovrn is at -16.78%.
 - **Our CSV is not cleaned:** it already has five consistent partner names and local dates, so no rules are added for it.
 
+### Load
+
+- **SQLite through Node's built-in `node:sqlite`**, in `reconcile.db` at the project root. The file is in `.gitignore`.
+- **The database is rebuilt on every run.** Each run loads all the data again from the CSV and the API, so adding to the old tables would load every row twice and double the totals. The database is not a source of truth: it can always be rebuilt from the CSV and the raw files. The Python starter does the same.
+  - *Next step:* keep a history of runs (for example a `run_id` column) to see how a partner's figures change between runs.
+- **Two tables with the same shape**, `server_revenue` and `partner_revenue` (`date`, `partner`, `bundle`, `revenue`). Rows are stored per bundle, as in the sources. Totals per partner are left to SQL.
+- **SQL lives in `src/db/`:** the table structure in `schema.ts`, and the statements that work on the data (inserts, and later the gap and flag queries) in `queries.ts`. Values are passed as named parameters, never pasted into the SQL text.
+- **Both sources are loaded in one transaction**, so the database never holds only part of the data.
+
+### Gap calculation (SQL)
+
+- **One query, `SELECT_DAILY_GAPS` in `src/db/queries.ts`.** It sums each source per date and partner, takes the `UNION` of the (date, partner) pairs from both sources, and `LEFT JOIN`s each side's totals onto those pairs. A pair that exists on one side only is not lost. The Python starter joins from our side only, so a partner-only pair would disappear.
+- **Direction:** `gap = partner revenue - our revenue`. Negative means the partner reports less than we counted. This is the starter's direction too.
+- **Percentage:** `gap_pct = gap / our revenue × 100`, keeping the sign. The brief measures "away from ours", so our revenue is the base.
+- **Missing data stays `NULL`, never 0.** When a partner sent nothing for a day, its total, `gap` and `gap_pct` are `NULL`. The starter used `COALESCE(..., 0)`, which turned a missing partner into a -100% gap.
+- **Our revenue of 0:** `NULLIF(our revenue, 0)` makes `gap_pct` `NULL` instead of dividing by zero. The amount `gap` is still shown. No such case in the data, so no extra flag.
+- **No rounding in SQL.** Values are rounded to 2 decimals only when the report prints them, so the 10% flag is decided on the exact number.
+  - *Edge case left out:* a gap just over 10%, such as 10.004%, would be flagged but printed as 10.00%. It does not happen in this data. If it mattered, the report could show more decimals only for flagged rows that round to 10.00%.
+- **A pair with our data missing** (partner data only, for example an unknown partner name) shows up in the table with our revenue `NULL`. It gets no flag, because the brief asks for two flags only.
+
 ### Data findings (handled in later steps)
 
 - Magnite shows up under three names in the API: `Magnite`, `magnite inc.`, `MGNI`.
@@ -128,7 +148,7 @@ A GitHub repository link, with a README that covers everything asked for in the 
 
 ### Tooling
 
-- **Built-in `node:sqlite` (planned)**: no native dependency to compile, and its API is synchronous like `better-sqlite3`.
+- **Built-in `node:sqlite`**: no native dependency to compile, and its API is synchronous like `better-sqlite3`.
 - **Tests: Node's built-in `node:test`, run through `tsx` (`npm test`).** The brief asks for one small test, so a test framework dependency was not worth it. Plain `node --test` cannot run our files, because the TypeScript imports use `.js` paths that only `tsx` maps to `.ts`.
   - `tests/partnerRows.test.ts` checks the cleaning: the Magnite aliases, the Israel day on both sides of the 2026-10-25 clock change, PubMatic cents, and that the raw rows are not changed.
   - To make sure the tests can fail, the config was broken on purpose (time zone set to UTC, cents list emptied). Three of the four tests failed, and all passed again once the config was restored.
