@@ -100,6 +100,65 @@ Alerts for 2026-10-31 (gap over 10%, or no partner data)
 
 `gap` is the partner's revenue minus ours, and `gap %` is that gap as a percentage of our revenue. `null` means a source sent no data for that day, which is different from 0.
 
+## How it works
+
+```mermaid
+flowchart TD
+    subgraph SRC["Data Sources"]
+        CSV["Server CSV"]
+        API["Partner API"]
+    end
+
+    subgraph ETL["ETL Pipeline"]
+        subgraph ING["1. Ingest"]
+            IC["Read & validate CSV"]
+            IA["Fetch, save raw & validate API"]
+        end
+
+        RAW["Raw JSON backup"]
+
+        subgraph TR["2. Transform"]
+            T["Normalize partner names<br/>Normalize dates<br/>Normalize revenue units"]
+        end
+
+        subgraph LD["3. Load"]
+            DB[("SQLite<br/>server_revenue<br/>partner_revenue")]
+        end
+
+        IC --> DB
+        IA -.-> RAW
+        IA --> T
+        T --> DB
+    end
+
+    subgraph REC["4. Reconciliation"]
+        G["SQL Gap Query<br/>Daily totals, gap, gap %"]
+    end
+
+    subgraph REP["5. Reporting"]
+        S["Determine row status"]
+        R["Gap report & alerts"]
+        S --> R
+    end
+
+    CSV --> IC
+    API --> IA
+    DB --> G
+    G --> S
+
+    classDef source fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    classDef step fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef store fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef output fill:#fce7f3,stroke:#db2777,color:#831843
+
+    class CSV,API source
+    class IC,IA,T,G,S step
+    class RAW,DB store
+    class R output
+```
+
+The server rows need no cleaning, so they go straight from Ingest to the database.
+
 ## Decisions log (working notes, to be rewritten into the final README)
 
 ### Ingest
