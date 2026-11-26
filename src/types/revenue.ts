@@ -27,3 +27,17 @@ export type ReconciliationRow = {
     gap: number | null;
     gapPct: number | null;
 };
+
+/** Every status a row can have, written once and used by name. */
+export const STATUS = {
+    OK: "OK",
+    GAP: "GAP",
+    NO_PARTNER_DATA: "NO PARTNER DATA",
+    NO_SERVER_DATA: "NO SERVER DATA"
+} as const;
+
+/** One of the values in STATUS. */
+export type Status = (typeof STATUS)[keyof typeof STATUS];
+
+/** A reconciliation row with the status the report shows for it. */
+export type ReportRow = ReconciliationRow & { status: Status };

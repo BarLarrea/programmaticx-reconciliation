@@ -1,6 +1,7 @@
 import { appConfig } from "./config/appConfig.js";
-import { createDatabase, loadRevenue } from "./db/database.js";
+import { createDatabase, getDailyGaps, loadRevenue } from "./db/database.js";
 import { fetchPartnerReports } from "./ingest/partnerApi.js";
+import { addStatus } from "./report/status.js";
 import { loadServerRevenue } from "./ingest/serverCsv.js";
 import { cleanPartnerRows } from "./transform/partnerRows.js";
 import { addDays, eachDay } from "./utils/dates.js";
@@ -28,3 +29,6 @@ console.log(
     `Loaded ${serverRows.length} server rows (${firstDay} to ${lastDay}) ` +
         `and ${partnerRows.length} partner rows into ${appConfig.dbPath}`
 );
+
+console.table(partnerRows);
+console.table(addStatus(getDailyGaps(db)));
