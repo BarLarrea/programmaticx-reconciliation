@@ -9,7 +9,6 @@ import {
 /**
  * Decides the status of one row. The first rule that matches wins.
  * A missing side comes first, because without it there is no gap.
- * The threshold is checked on the exact value, before any rounding.
  */
 function decideStatus(row: ReconciliationRow): Status {
     if (row.partnerRevenue === null) return STATUS.NO_PARTNER_DATA;

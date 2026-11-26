@@ -25,7 +25,8 @@ export const INSERT_PARTNER_ROW = `
  *
  * gap = partner revenue - our revenue (negative: partner reports less)
  * gap_pct = gap as a percentage of our revenue; NULL when ours is 0
- * Values are not rounded here; the report rounds them for display.
+ * Every value is rounded to 2 decimals here, so the flag is decided on
+ * the same number the report shows. ROUND(NULL, 2) stays NULL.
  */
 export const SELECT_DAILY_GAPS = /*sql*/ `
     WITH server_totals AS (
@@ -46,10 +47,10 @@ export const SELECT_DAILY_GAPS = /*sql*/ `
     SELECT
         pairs.date,
         pairs.partner,
-        s.revenue AS server_revenue,
-        p.revenue AS partner_revenue,
-        p.revenue - s.revenue AS gap,
-        (p.revenue - s.revenue) * 100.0 / NULLIF(s.revenue, 0) AS gap_pct
+        ROUND(s.revenue, 2) AS server_revenue,
+        ROUND(p.revenue, 2) AS partner_revenue,
+        ROUND(p.revenue - s.revenue, 2) AS gap,
+        ROUND((p.revenue - s.revenue) * 100.0 / NULLIF(s.revenue, 0), 2) AS gap_pct
     FROM pairs
     LEFT JOIN server_totals AS s
         ON s.date = pairs.date AND s.partner = pairs.partner

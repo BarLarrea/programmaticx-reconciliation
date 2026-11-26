@@ -10,11 +10,6 @@ export type LoadSummary = {
     dbPath: string;
 };
 
-/** Rounds to 2 decimals for display. A missing value stays null. */
-function round2(value: number | null): number | null {
-    return value === null ? null : Math.round(value * 100) / 100;
-}
-
 /**
  * Prints what was loaded, every row as a table, and then the alerts
  * for the most recent day.
@@ -38,10 +33,10 @@ export function printReport(
         rows.map((row) => ({
             date: row.date,
             partner: row.partner,
-            "server revenue": round2(row.serverRevenue),
-            "partner revenue": round2(row.partnerRevenue),
-            gap: round2(row.gap),
-            "gap %": round2(row.gapPct),
+            "server revenue": row.serverRevenue,
+            "partner revenue": row.partnerRevenue,
+            gap: row.gap,
+            "gap %": row.gapPct,
             status: row.status
         }))
     );
@@ -59,8 +54,8 @@ export function printReport(
         alerts.map((row) => ({
             partner: row.partner,
             status: row.status,
-            gap: round2(row.gap),
-            "gap %": round2(row.gapPct)
+            gap: row.gap,
+            "gap %": row.gapPct
         }))
     );
 }
