@@ -252,6 +252,33 @@ The latest reporting day (2026-10-31) contains two actionable findings:
 - **Centralized status logic** — the report and alerts share the same status calculation to ensure consistency.
 - **Alert scope** — missing server data is reported but does not trigger an alert, keeping alerts aligned with the two conditions defined in the brief.
 
+## Proposed Feature — Partner Alias Management
+
+### Problem
+
+During data validation, Magnite was found under three different names. Currently, these aliases are mapped in the code.
+
+An unrecognized alias is treated as a separate partner with a `NO SERVER DATA` status, while the actual partner's reported revenue may be incomplete. This can produce misleading reconciliation results and false alerts, requiring developer intervention.
+
+### Proposed Solution
+
+Move partner name mappings from the code to a persistent database table and introduce a dedicated data quality alert for unrecognized partner names.
+
+This would allow the operations team to verify and manage partner aliases independently, without requiring code changes or redeployment.
+
+### Implementation
+
+- Create a `partner_aliases` table containing aliases and their corresponding canonical partner names.
+- Store the mapping table in a separate, persistent database that is not rebuilt on each run.
+- Update the transformation step to use database mappings instead of hardcoded rules.
+- Generate a dedicated `UNKNOWN PARTNER NAME` alert for unrecognized partner names without interrupting the reconciliation pipeline or report generation.
+- Provide a simple management interface or CLI for approving and updating mappings.
+- Reprocess the affected data after a mapping is approved.
+
+Until a mapping is approved, records with unrecognized partner names would remain in the report under their original names. New aliases would require human verification rather than automatic matching to prevent incorrect revenue attribution.
+
+This feature would improve the reliability of revenue reports, reduce false alerts, and allow the revenue team to focus on genuine financial discrepancies rather than data naming inconsistencies.
+
 ## Decisions log (working notes, to be rewritten into the final README)
 
 ### Ingest
