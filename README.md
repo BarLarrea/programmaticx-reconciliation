@@ -128,6 +128,17 @@ A GitHub repository link, with a README that covers everything asked for in the 
 - **SQL lives in `src/db/`:** the table structure in `schema.ts`, and the statements that work on the data (inserts, and later the gap and flag queries) in `queries.ts`. Values are passed as named parameters, never pasted into the SQL text.
 - **Both sources are loaded in one transaction**, so the database never holds only part of the data.
 
+### Gap calculation (SQL)
+
+- **One query, `SELECT_DAILY_GAPS` in `src/db/queries.ts`.** It sums each source per date and partner, takes the `UNION` of the (date, partner) pairs from both sources, and `LEFT JOIN`s each side's totals onto those pairs. A pair that exists on one side only is not lost. The Python starter joins from our side only, so a partner-only pair would disappear.
+- **Direction:** `gap = partner revenue - our revenue`. Negative means the partner reports less than we counted. This is the starter's direction too.
+- **Percentage:** `gap_pct = gap / our revenue × 100`, keeping the sign. The brief measures "away from ours", so our revenue is the base.
+- **Missing data stays `NULL`, never 0.** When a partner sent nothing for a day, its total, `gap` and `gap_pct` are `NULL`. The starter used `COALESCE(..., 0)`, which turned a missing partner into a -100% gap.
+- **Our revenue of 0:** `NULLIF(our revenue, 0)` makes `gap_pct` `NULL` instead of dividing by zero. The amount `gap` is still shown. No such case in the data, so no extra flag.
+- **No rounding in SQL.** Values are rounded to 2 decimals only when the report prints them, so the 10% flag is decided on the exact number.
+  - *Edge case left out:* a gap just over 10%, such as 10.004%, would be flagged but printed as 10.00%. It does not happen in this data. If it mattered, the report could show more decimals only for flagged rows that round to 10.00%.
+- **A pair with our data missing** (partner data only, for example an unknown partner name) shows up in the table with our revenue `NULL`. It gets no flag, because the brief asks for two flags only.
+
 ### Data findings (handled in later steps)
 
 - Magnite shows up under three names in the API: `Magnite`, `magnite inc.`, `MGNI`.

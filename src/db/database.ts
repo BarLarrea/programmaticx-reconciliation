@@ -1,7 +1,11 @@
 import { rmSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
-import type { RevenueRow } from "../types/revenue.js";
-import { INSERT_PARTNER_ROW, INSERT_SERVER_ROW } from "./queries.js";
+import type { GapRow, RevenueRow } from "../types/revenue.js";
+import {
+    INSERT_PARTNER_ROW,
+    INSERT_SERVER_ROW,
+    SELECT_DAILY_GAPS
+} from "./queries.js";
 import { CREATE_TABLES } from "./schema.js";
 
 /**
@@ -43,4 +47,16 @@ export function loadRevenue(
         db.exec("ROLLBACK");
         throw err;
     }
+}
+
+/** Runs the gap query and returns one row per (date, partner). */
+export function getDailyGaps(db: DatabaseSync): GapRow[] {
+    return db.prepare(SELECT_DAILY_GAPS).all().map((row) => ({
+        date: String(row.date),
+        partner: String(row.partner),
+        serverRevenue: row.server_revenue as number | null,
+        partnerRevenue: row.partner_revenue as number | null,
+        gap: row.gap as number | null,
+        gapPct: row.gap_pct as number | null
+    }));
 }
