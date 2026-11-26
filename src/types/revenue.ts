@@ -15,10 +15,11 @@ export type RevenueRow = {
 };
 
 /**
- * Totals and gap for one (date, partner). A side is null when that
- * source had no rows for the pair, which is different from 0.
+ * Our totals compared with the partner's for one (date, partner).
+ * A side is null when that source had no rows for the pair, which is
+ * different from 0.
  */
-export type GapRow = {
+export type ReconciliationRow = {
     date: string;
     partner: string;
     serverRevenue: number | null;
@@ -26,7 +27,3 @@ export type GapRow = {
     gap: number | null;
     gapPct: number | null;
 };
-
-export type Alert =
-    | { kind: "gap"; partner: string; gap: number; gapPct: number }
-    | { kind: "missing"; partner: string };
