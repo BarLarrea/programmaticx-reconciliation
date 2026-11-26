@@ -159,6 +159,45 @@ flowchart TD
 
 The server rows need no cleaning, so they go straight from Ingest to the database.
 
+## Project structure
+
+```text
+programmaticx-reconciliation/
+├── src/
+│   ├── main.ts                 Entry point: runs every step in order
+│   ├── config/
+│   │   ├── appConfig.ts        Paths, API address and timeout
+│   │   └── businessConfig.ts   Gap threshold, time zone, partner rules
+│   ├── ingest/                 1. Ingest
+│   │   ├── serverCsv.ts        Read and validate the server CSV
+│   │   └── partnerApi.ts       Fetch each day, save raw, validate
+│   ├── transform/              2. Transform
+│   │   └── partnerRows.ts      Partner names, Israel day, PubMatic cents
+│   ├── db/                     3. Load and 4. Reconciliation
+│   │   ├── schema.ts           CREATE TABLE statements
+│   │   ├── queries.ts          Inserts and the gap query
+│   │   └── database.ts         Create, load, run the gap query
+│   ├── report/                 5. Reporting
+│   │   ├── status.ts           Status for each row
+│   │   ├── alerts.ts           Alerts for the most recent day
+│   │   └── printReport.ts      Print the gap table and the alerts
+│   ├── types/
+│   │   └── revenue.ts          Row types and the status constants
+│   └── utils/
+│       └── dates.ts            Date helpers
+├── tests/                      Run with npm test
+│   ├── partnerRows.test.ts     Cleaning rules
+│   ├── report.test.ts          Status and alerts
+│   └── gaps.test.ts            Gap query rounding, on an in-memory database
+├── data/
+│   └── server_revenue.csv      Server revenue
+├── mock_api/                   Mock partner API (Python)
+├── raw/                        Raw API responses (created on run)
+├── reconcile.db                SQLite database (created on run)
+├── package.json
+└── tsconfig.json
+```
+
 ## Decisions log (working notes, to be rewritten into the final README)
 
 ### Ingest
