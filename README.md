@@ -1,45 +1,35 @@
 # Partner Revenue Reconciliation
 
-A company that sells ad space works with several ad partners. Every day, the company's servers record how much revenue each partner brought in (the "server revenue"). Each partner also reports its own figure for the same day, through an API. The two figures should be close, and when they are not, someone needs to look into it.
+A revenue reconciliation tool that compares internal server revenue with revenue reported by advertising partners, identifying discrepancies and missing data.
 
-This tool compares the two sources for every day and every partner:
+The tool:
 
-1. It fetches the partner reports from the API and saves them exactly as they arrived.
-2. It cleans the partner data, so both sources use the same partner names, days and units.
-3. It loads both sources into a SQLite database.
-4. It calculates the gap per day and partner in SQL, as an amount and as a percentage.
-5. It prints a table of all the gaps, and alerts for the most recent day: a gap over 10%, or a partner that sent no data.
+1. Reads the server revenue CSV and fetches partner reports from the API, preserving the original API responses.
+2. Validates the input data and normalizes partner names, reporting dates, and revenue units.
+3. Loads both data sources into a SQLite database.
+4. Calculates daily revenue gaps per partner in SQL, both as monetary amounts and percentages.
+5. Generates a reconciliation report and alerts for the most recent reporting day, flagging gaps exceeding 10% in either direction and missing partner data.
 
-The tool is written in TypeScript (Node 24). The partner API is simulated by a small Python server in `mock_api/`, and the server revenue is in `data/server_revenue.csv`.
+The tool is implemented in TypeScript (Node.js 24), using the original server revenue CSV and Python mock API provided in the starter project.
 
-## How to run
+## How to Run
 
 ### Requirements
 
-You need Node 24 or newer, and Python 3.10 or newer for the mock API. To check:
+- Node.js 24 or newer
+- Python 3.10 or newer (for the mock API)
 
-```bash
-node --version
-python3 --version
-```
+### Installation
 
-To install and use the matching versions:
-
-```bash
-nvm install 24
-pyenv install 3.12
-pyenv shell 3.12
-```
-
-### Install and run
-
-Install the project's packages:
+Install the project dependencies:
 
 ```bash
 npm ci
 ```
 
-In one terminal, start the mock API. It listens on `http://127.0.0.1:8000`:
+### Run the Reconciliation
+
+In the first terminal, start the mock API:
 
 ```bash
 python3 mock_api/server.py
@@ -51,24 +41,31 @@ In a second terminal, run the reconciliation:
 npm run reconcile
 ```
 
-The raw API responses are saved under `raw/`, and the database is written to `reconcile.db`. Both are rebuilt on every run.
+The raw API responses are saved under `raw/`, and the SQLite database is created at `reconcile.db`. Both are rebuilt on every run.
 
-To run the tests (the mock API is not needed):
+### Run Tests
 
 ```bash
 npm test
 ```
 
-The mock API uses port 8000. To use another port, for example 8080, start it with `PORT` and pass the same address to the reconciliation:
+Tests run independently of the mock API.
+
+### Configuration
+
+The mock API runs on port 8000 by default. To use a different port:
 
 ```bash
 PORT=8080 python3 mock_api/server.py
+```
+
+```bash
 PARTNER_API_BASE_URL=http://127.0.0.1:8080 npm run reconcile
 ```
 
-The default address is set in `src/config/appConfig.ts`.
+Application settings are defined in `src/config/appConfig.ts`, while business rules are defined in `src/config/businessConfig.ts`.
 
-## Output
+## Example Output
 
 ```text
 Revenue reconciliation
@@ -98,9 +95,11 @@ Alerts for 2026-10-31 (gap over 10%, or no partner data)
 └─────────┴─────────┴───────────────────┴──────┴────────┘
 ```
 
-`gap` is the partner's revenue minus ours, and `gap %` is that gap as a percentage of our revenue. `null` means a source sent no data for that day, which is different from 0.
+- **Gap** — partner revenue minus server revenue.
+- **Gap %** — the revenue gap as a percentage of server revenue.
+- **null** — indicates missing revenue data or an undefined calculation, rather than a numeric value of zero.
 
-## How it works
+## How It Works
 
 ```mermaid
 flowchart TD
@@ -115,7 +114,7 @@ flowchart TD
             IA["Fetch, save raw & validate API"]
         end
 
-        RAW["Raw JSON backup"]
+        RAW["Raw API Responses"]
 
         subgraph TR["2. Transform"]
             T["Normalize partner names<br/>Normalize dates<br/>Normalize revenue units"]
@@ -157,14 +156,14 @@ flowchart TD
     class R output
 ```
 
-The server rows need no cleaning, so they go straight from Ingest to the database.
+Server revenue records are validated during ingestion and loaded directly into the database, while partner records undergo normalization before loading.
 
-## Project structure
+## Project Structure
 
 ```text
 programmaticx-reconciliation/
 ├── src/
-│   ├── main.ts                 Entry point: runs every step in order
+│   ├── main.ts                 Entry point & pipeline orchestration
 │   ├── config/
 │   │   ├── appConfig.ts        Paths, API address and timeout
 │   │   └── businessConfig.ts   Gap threshold, time zone, partner rules
@@ -172,7 +171,7 @@ programmaticx-reconciliation/
 │   │   ├── serverCsv.ts        Read and validate the server CSV
 │   │   └── partnerApi.ts       Fetch each day, save raw, validate
 │   ├── transform/              2. Transform
-│   │   └── partnerRows.ts      Partner names, Israel day, PubMatic cents
+│   │   └── partnerRows.ts      Partner names, Israel day, revenue units
 │   ├── db/                     3. Load and 4. Reconciliation
 │   │   ├── schema.ts           CREATE TABLE statements
 │   │   ├── queries.ts          Inserts and the gap query
@@ -195,41 +194,63 @@ programmaticx-reconciliation/
 ├── raw/                        Raw API responses (created on run)
 ├── reconcile.db                SQLite database (created on run)
 ├── package.json
-└── tsconfig.json
+├── package-lock.json           Exact dependency versions, used by npm ci
+├── tsconfig.json
+└── README.md
 ```
 
-## How the numbers are kept correct
+## Data Quality and Validation
 
-### For any input
+### General Validation Rules
 
-These rules hold for any data. Some were found while reviewing this data, but none of them depends on a specific partner.
+- **Fail-fast validation** — every CSV and API row is validated for required fields, numeric revenue, and valid dates. Invalid records stop the run with an error rather than allowing unreliable data into the report.
+- **Timestamp-based date normalization** — API records are assigned to their actual reporting day rather than the requested date. UTC timestamps are converted using the `Asia/Jerusalem` time zone, accounting for daylight saving time, including the transition on 2026-10-25.
+- **Missing data is not zero** — missing revenue is represented as `NULL`, distinguishing an absent report from actual zero revenue and preventing misleading percentage gaps.
+- **Automated tests** — `npm test` covers data cleaning, status classification, alert generation, and SQL rounding.
 
-- **A broken row stops the run.** Every CSV row and API row is checked: all fields are there, revenue is a number, and dates are real dates. If a row is broken, the run stops with an error, so the report is never built on data the code cannot trust.
-- **A record's day comes from its timestamp.** Asking the API for one date can return records from another day, so grouping by the requested date would put records on the wrong day. Each record's day is its UTC `timestamp` converted to Israel time, the same as the server CSV dates. The conversion uses the time zone, not a fixed offset, because Israel moves from UTC+3 to UTC+2 on 2026-10-25.
-- **A partner with no data is never a zero.** Counted as 0, it would look like a -100% gap. Its revenue stays empty (`NULL`) and it gets its own alert, `NO PARTNER DATA`. In this data, OpenX sent nothing for 2026-10-31.
-- **Tests** (`npm test`) cover the cleaning rules, the status rules, the alerts, and the rounding in the gap query.
+### Dataset-Specific Findings
 
-### On the provided data
+The raw API data and server CSV were manually reviewed and compared using DataGrip. Two partner-specific inconsistencies were identified. Both required assumptions that should be verified before applying these rules in production.
 
-The rows and the numbers were reviewed manually in DataGrip, comparing the raw API data with the server CSV. Two problems are specific to one partner and could only be solved with an assumption. For each one: the assumption, how it was reached, the fix built on it, and how it would be confirmed in production before relying on it.
+#### Magnite — Inconsistent Partner Names
 
-#### Magnite under three names
+- **Problem:** The API identifies Magnite as `Magnite`, `magnite inc.`, and `MGNI`. Treating these as separate partners would produce incorrect reconciliation results.
+- **Assumption:** All three identifiers represent the same partner. `MGNI` is Magnite's stock ticker, and the revenue records align with the server data within approximately 2%.
+- **Fix:** All three identifiers are normalized to `Magnite`, matching the server CSV.
+- **In production:** Confirm the mapping with the account manager and request a stable partner identifier instead of relying on free-text names.
 
-- **Problem:** the API uses `Magnite`, `magnite inc.` and `MGNI`. Kept apart, Magnite's revenue would split into three partners, each with a false gap.
-- **Assumption:** all three are the same partner. Magnite, Inc. is a public company traded as `MGNI`, so one name is the legal name and one is the stock ticker. In the data, each day has one row per Magnite bundle under only one of the names, and the amounts match the server CSV within about 2%.
-- **Fix:** the three names are mapped to `Magnite`, the name in the server CSV.
-- **In production:** confirm with the account manager for Magnite that these are one account, and ask the partner for a stable partner ID instead of a free-text name.
+#### PubMatic — Revenue Unit Mismatch
 
-#### PubMatic in cents
+- **Problem:** PubMatic's reported revenue is approximately 100 times higher than the corresponding server revenue.
+- **Assumption:** PubMatic reports revenue in cents rather than dollars. This is supported by a consistent ratio of 98–102 across matching records and the fact that all PubMatic revenue values are integers.
+- **Fix:** PubMatic's revenue is divided by 100 using a configurable normalization rule. The original values remain unchanged in the saved raw responses.
+- **In production:** Verify the revenue unit against the partner's API documentation and cross-check the normalized figures against its dashboard or invoice.
 
-- **Problem:** PubMatic's values are about 100 times the server figures, for example `17616` against `178.70`. Taken as dollars, PubMatic would show a gap of about +9,800% every day.
-- **Assumption:** PubMatic reports in cents. On every row, for every day, the ratio to the server figure is between 98 and 102, and every PubMatic value is a whole number, while the other partners' values have cents. A real jump in revenue would not come out at ×100 on every row for two weeks.
-- **Fix:** PubMatic's values are divided by 100. The rule is listed in the config, not hidden in the code, and the raw files keep the original values.
-- **In production:** check the unit in PubMatic's API documentation or with the account manager, and compare one day with PubMatic's own dashboard or invoice.
+### Results
 
-#### Result
+After normalization, all comparable revenue gaps are below 2%, except for one significant discrepancy.
 
-After these fixes, every gap is under 2%, except one real gap: Sovrn on 2026-10-31, at -16.78%.
+The latest reporting day (2026-10-31) contains two actionable findings:
+
+- **Sovrn:** a revenue gap of -16.78%.
+- **OpenX:** missing partner revenue data.
+
+## Additional Design Decisions
+
+### Tools
+
+- **`node:sqlite` and `node:test`** — built into Node.js, reducing external dependencies and keeping the setup simple.
+
+### Reconciliation
+
+- **Complete coverage** — the SQL query uses `UNION` to combine all unique `(date, partner)` pairs from both sources, followed by `LEFT JOIN` to attach the corresponding revenue totals, preserving records even when data is missing from either side.
+- **Rounding** — values are rounded to two decimal places in SQL to maintain consistency between reported values and alert decisions, avoiding unnecessary alerts for negligible deviations from the threshold.
+
+### Reporting
+
+- **Reference date** — the latest date in the server CSV is used as "yesterday", regardless of row order.
+- **Centralized status logic** — the report and alerts share the same status calculation to ensure consistency.
+- **Alert scope** — missing server data is reported but does not trigger an alert, keeping alerts aligned with the two conditions defined in the brief.
 
 ## Decisions log (working notes, to be rewritten into the final README)
 
