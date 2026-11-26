@@ -1,6 +1,7 @@
 import { appConfig } from "./config/appConfig.js";
 import { createDatabase, getDailyGaps, loadRevenue } from "./db/database.js";
 import { fetchPartnerReports } from "./ingest/partnerApi.js";
+import { findAlerts } from "./report/alerts.js";
 import { addStatus } from "./report/status.js";
 import { loadServerRevenue } from "./ingest/serverCsv.js";
 import { cleanPartnerRows } from "./transform/partnerRows.js";
@@ -31,4 +32,6 @@ console.log(
 );
 
 console.table(partnerRows);
-console.table(addStatus(getDailyGaps(db)));
+const reportRows = addStatus(getDailyGaps(db));
+console.table(reportRows);
+console.table(findAlerts(reportRows, lastDay));
