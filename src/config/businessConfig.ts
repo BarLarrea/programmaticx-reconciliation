@@ -13,8 +13,11 @@ const partnerAliases: Record<string, string> = {
 
 /** Business rules: what counts as a gap, how a day is defined, who is who. */
 export const businessConfig = {
-    /** Flag a partner when |gap| is more than this share of our revenue. */
-    gapThreshold: 0.1,
+    /**
+     * Flag a partner when |gap_pct| is more than this, in percent of our
+     * revenue. Percent, like gap_pct, so the two compare directly.
+     */
+    gapThresholdPct: 10,
 
     /** Days are counted in Israel time, the same as our CSV dates. */
     timeZone: "Asia/Jerusalem",

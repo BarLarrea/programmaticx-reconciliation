@@ -1,6 +1,6 @@
 import { rmSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
-import type { GapRow, RevenueRow } from "../types/revenue.js";
+import type { ReconciliationRow, RevenueRow } from "../types/revenue.js";
 import {
     INSERT_PARTNER_ROW,
     INSERT_SERVER_ROW,
@@ -50,7 +50,7 @@ export function loadRevenue(
 }
 
 /** Runs the gap query and returns one row per (date, partner). */
-export function getDailyGaps(db: DatabaseSync): GapRow[] {
+export function getDailyGaps(db: DatabaseSync): ReconciliationRow[] {
     return db.prepare(SELECT_DAILY_GAPS).all().map((row) => ({
         date: String(row.date),
         partner: String(row.partner),

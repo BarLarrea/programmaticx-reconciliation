@@ -94,7 +94,8 @@ A GitHub repository link, with a README that covers everything asked for in the 
 
 ### Project structure
 
-- The folders follow the ETL stages, but each one is named for what it does: `src/ingest/` (extract: fetch, save raw, validate shape), `src/transform/` (clean and convert values), and `src/db/` (load into SQLite, plus the reconciliation queries). It is called `db/` and not `load/` because it also holds the gap and flag queries.
+- The folders follow the ETL stages, but each one is named for what it does: `src/ingest/` (extract: fetch, save raw, validate shape), `src/transform/` (clean and convert values), and `src/db/` (load into SQLite, plus the gap query). It is called `db/` and not `load/` because it also holds the gap query.
+- **After ETL comes the report**, in `src/report/`: `status.ts` decides a status for each row, `alerts.ts` picks the rows to alert on, and `printReport.ts` prints. SQL calculates, TypeScript decides and prints.
 
 ### Transform
 
@@ -135,9 +136,18 @@ A GitHub repository link, with a README that covers everything asked for in the 
 - **Percentage:** `gap_pct = gap / our revenue × 100`, keeping the sign. The brief measures "away from ours", so our revenue is the base.
 - **Missing data stays `NULL`, never 0.** When a partner sent nothing for a day, its total, `gap` and `gap_pct` are `NULL`. The starter used `COALESCE(..., 0)`, which turned a missing partner into a -100% gap.
 - **Our revenue of 0:** `NULLIF(our revenue, 0)` makes `gap_pct` `NULL` instead of dividing by zero. The amount `gap` is still shown. No such case in the data, so no extra flag.
-- **No rounding in SQL.** Values are rounded to 2 decimals only when the report prints them, so the 10% flag is decided on the exact number.
-  - *Edge case left out:* a gap just over 10%, such as 10.004%, would be flagged but printed as 10.00%. It does not happen in this data. If it mattered, the report could show more decimals only for flagged rows that round to 10.00%.
-- **A pair with our data missing** (partner data only, for example an unknown partner name) shows up in the table with our revenue `NULL`. It gets no flag, because the brief asks for two flags only.
+- **Rounded to 2 decimals in SQL**, like the starter. The flag is decided on the same number the report shows, so a gap of 10.004% is shown as 10 and not flagged. Otherwise the report would show a flag on "10%", which is confusing. The sums and the gap are rounded too, to remove floating-point tails such as `364.96000000000004`. `ROUND(NULL, 2)` stays `NULL`.
+- **A pair with our data missing** (partner data only, for example an unknown partner name) shows up in the table with our revenue `NULL` and the status `NO SERVER DATA`. It gets no alert, because the brief asks for two flags only.
+
+### Alerts and report
+
+- **"Yesterday" is the highest date in our CSV**, as the brief says ("the most recent day in the data"). It is the highest date, not the last one in the file, which is what the starter takes. Taking it from both sources adds nothing, because we only fetch partner days in our CSV's range.
+  - *Next step:* in production, "yesterday" would be the calendar day before today in Israel time, so a day missing from both sources is caught.
+- **Every row gets a status**, decided in one place (`src/report/status.ts`). The first rule that matches wins: `NO PARTNER DATA`, `NO SERVER DATA`, `GAP` (`|gap_pct| > 10`), otherwise `OK`. The table and the alerts both use this status, so they cannot disagree. The starter decides "missing" in SQL and the gap in Python.
+- **The statuses are constants** (`STATUS` in `src/types/revenue.ts`), written once and used by name.
+- **The threshold is in percent** (`gapThresholdPct: 10`), the same unit as `gap_pct`, so the two compare without a conversion.
+- **Alerts are the rows of yesterday with `GAP` or `NO PARTNER DATA`.** A missing partner is its own alert, not a zero.
+- **Report:** a header with what was loaded, the full table, and the alerts table, printed with `console.table`. A missing value is shown as `null`. The rows are plain data, so another output (JSON for an API, CSV) could use them without changing the logic.
 
 ### Data findings (handled in later steps)
 
@@ -152,6 +162,8 @@ A GitHub repository link, with a README that covers everything asked for in the 
 - **Tests: Node's built-in `node:test`, run through `tsx` (`npm test`).** The brief asks for one small test, so a test framework dependency was not worth it. Plain `node --test` cannot run our files, because the TypeScript imports use `.js` paths that only `tsx` maps to `.ts`.
   - `tests/partnerRows.test.ts` checks the cleaning: the Magnite aliases, the Israel day on both sides of the 2026-10-25 clock change, PubMatic cents, and that the raw rows are not changed.
   - To make sure the tests can fail, the config was broken on purpose (time zone set to UTC, cents list emptied). Three of the four tests failed, and all passed again once the config was restored.
+  - `tests/report.test.ts` checks the flag logic: each status rule, a gap of exactly 10% is not flagged, a negative gap is, and the alerts keep only yesterday's `GAP` and `NO PARTNER DATA` rows.
+  - `tests/gaps.test.ts` runs the real gap query on an in-memory database and checks that 10.004% comes back as 10 (`OK`) and 10.01% as `GAP`.
 - **`csv-parse`**: handles quoted fields correctly, which splitting on commas does not.
 - **Entry point `src/main.ts`**, run with `npm run reconcile`.
 

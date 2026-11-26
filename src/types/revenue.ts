@@ -15,10 +15,11 @@ export type RevenueRow = {
 };
 
 /**
- * Totals and gap for one (date, partner). A side is null when that
- * source had no rows for the pair, which is different from 0.
+ * Our totals compared with the partner's for one (date, partner).
+ * A side is null when that source had no rows for the pair, which is
+ * different from 0.
  */
-export type GapRow = {
+export type ReconciliationRow = {
     date: string;
     partner: string;
     serverRevenue: number | null;
@@ -27,6 +28,16 @@ export type GapRow = {
     gapPct: number | null;
 };
 
-export type Alert =
-    | { kind: "gap"; partner: string; gap: number; gapPct: number }
-    | { kind: "missing"; partner: string };
+/** Every status a row can have, written once and used by name. */
+export const STATUS = {
+    OK: "OK",
+    GAP: "GAP",
+    NO_PARTNER_DATA: "NO PARTNER DATA",
+    NO_SERVER_DATA: "NO SERVER DATA"
+} as const;
+
+/** One of the values in STATUS. */
+export type Status = (typeof STATUS)[keyof typeof STATUS];
+
+/** A reconciliation row with the status the report shows for it. */
+export type ReportRow = ReconciliationRow & { status: Status };
