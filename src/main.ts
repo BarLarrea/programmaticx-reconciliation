@@ -1,9 +1,10 @@
 import { appConfig } from "./config/appConfig.js";
 import { createDatabase, getDailyGaps, loadRevenue } from "./db/database.js";
 import { fetchPartnerReports } from "./ingest/partnerApi.js";
-import { findAlerts } from "./report/alerts.js";
-import { addStatus } from "./report/status.js";
 import { loadServerRevenue } from "./ingest/serverCsv.js";
+import { findAlerts } from "./report/alerts.js";
+import { printReport } from "./report/printReport.js";
+import { addStatus } from "./report/status.js";
 import { cleanPartnerRows } from "./transform/partnerRows.js";
 import { addDays, eachDay } from "./utils/dates.js";
 
@@ -26,12 +27,11 @@ const partnerRows = cleanPartnerRows(rawPartnerRows);
 const db = createDatabase(appConfig.dbPath);
 loadRevenue(db, serverRows, partnerRows);
 
-console.log(
-    `Loaded ${serverRows.length} server rows (${firstDay} to ${lastDay}) ` +
-        `and ${partnerRows.length} partner rows into ${appConfig.dbPath}`
-);
-
-console.table(partnerRows);
 const reportRows = addStatus(getDailyGaps(db));
-console.table(reportRows);
-console.table(findAlerts(reportRows, lastDay));
+printReport(reportRows, findAlerts(reportRows, lastDay), {
+    serverRows: serverRows.length,
+    partnerRows: partnerRows.length,
+    firstDay,
+    lastDay,
+    dbPath: appConfig.dbPath
+});
