@@ -198,6 +198,39 @@ programmaticx-reconciliation/
 └── tsconfig.json
 ```
 
+## How the numbers are kept correct
+
+### For any input
+
+These rules hold for any data. Some were found while reviewing this data, but none of them depends on a specific partner.
+
+- **A broken row stops the run.** Every CSV row and API row is checked: all fields are there, revenue is a number, and dates are real dates. If a row is broken, the run stops with an error, so the report is never built on data the code cannot trust.
+- **A record's day comes from its timestamp.** Asking the API for one date can return records from another day, so grouping by the requested date would put records on the wrong day. Each record's day is its UTC `timestamp` converted to Israel time, the same as the server CSV dates. The conversion uses the time zone, not a fixed offset, because Israel moves from UTC+3 to UTC+2 on 2026-10-25.
+- **A partner with no data is never a zero.** Counted as 0, it would look like a -100% gap. Its revenue stays empty (`NULL`) and it gets its own alert, `NO PARTNER DATA`. In this data, OpenX sent nothing for 2026-10-31.
+- **Tests** (`npm test`) cover the cleaning rules, the status rules, the alerts, and the rounding in the gap query.
+
+### On the provided data
+
+The rows and the numbers were reviewed manually in DataGrip, comparing the raw API data with the server CSV. Two problems are specific to one partner and could only be solved with an assumption. For each one: the assumption, how it was reached, the fix built on it, and how it would be confirmed in production before relying on it.
+
+#### Magnite under three names
+
+- **Problem:** the API uses `Magnite`, `magnite inc.` and `MGNI`. Kept apart, Magnite's revenue would split into three partners, each with a false gap.
+- **Assumption:** all three are the same partner. Magnite, Inc. is a public company traded as `MGNI`, so one name is the legal name and one is the stock ticker. In the data, each day has one row per Magnite bundle under only one of the names, and the amounts match the server CSV within about 2%.
+- **Fix:** the three names are mapped to `Magnite`, the name in the server CSV.
+- **In production:** confirm with the account manager for Magnite that these are one account, and ask the partner for a stable partner ID instead of a free-text name.
+
+#### PubMatic in cents
+
+- **Problem:** PubMatic's values are about 100 times the server figures, for example `17616` against `178.70`. Taken as dollars, PubMatic would show a gap of about +9,800% every day.
+- **Assumption:** PubMatic reports in cents. On every row, for every day, the ratio to the server figure is between 98 and 102, and every PubMatic value is a whole number, while the other partners' values have cents. A real jump in revenue would not come out at ×100 on every row for two weeks.
+- **Fix:** PubMatic's values are divided by 100. The rule is listed in the config, not hidden in the code, and the raw files keep the original values.
+- **In production:** check the unit in PubMatic's API documentation or with the account manager, and compare one day with PubMatic's own dashboard or invoice.
+
+#### Result
+
+After these fixes, every gap is under 2%, except one real gap: Sovrn on 2026-10-31, at -16.78%.
+
 ## Decisions log (working notes, to be rewritten into the final README)
 
 ### Ingest
